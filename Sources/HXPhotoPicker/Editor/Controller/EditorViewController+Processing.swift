@@ -110,10 +110,9 @@ extension EditorViewController {
                 }
                 return
             }
-            let compressionQuality = PhotoTools.getCompressionQuality(CGFloat(imageData.count))
             PhotoTools.compressImageData(
                 imageData,
-                compressionQuality: compressionQuality,
+                compressionQuality: nil,
                 queueLabel: "HXPhotoPicker.editor.CompressImageFilterProcessingQueue"
             ) {
                 guard let data = $0 else {
@@ -137,7 +136,7 @@ extension EditorViewController {
                 }
                 PhotoTools.compressImageData(
                     data,
-                    compressionQuality: 0.3,
+                    compressionQuality: nil,
                     queueLabel: "HXPhotoPicker.editor.CompressThumbImageFilterProcessingQueue"
                 ) { thumbData in
                     if let thumbData = thumbData,

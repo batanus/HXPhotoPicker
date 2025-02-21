@@ -205,7 +205,7 @@ extension EditorAdjusterView {
             return
         }
         if let overlayImage = overlayImage,
-           let image = inputImage.merge(images: [overlayImage], opaque: isJPEGImage, isJPEG: isJPEGImage || isHEICImage, compressionQuality: 1, scale: exportScale) {
+           let image = inputImage.merge(images: [overlayImage], opaque: isJPEGImage, isJPEG: isJPEGImage || isHEICImage, compressionQuality: 1, scale: 1) {
             inputImage = image
         }
         guard let image = PhotoTools.cropImage(inputImage, cropFactor: cropFactor) else {
@@ -223,10 +223,9 @@ extension EditorAdjusterView {
                 }
                 return
             }
-            let compressionQuality = cropFactor.isRound ? nil : self.getCompressionQuality(CGFloat(imageData.count), imageSize: image.size)
             self.compressImageData(
                 imageData,
-                compressionQuality: compressionQuality
+                compressionQuality: nil
             ) { [weak self] data in
                 guard let self = self,
                       let data = data,
@@ -249,25 +248,15 @@ extension EditorAdjusterView {
                     }
                     return
                 }
-                let thumbImage: UIImage?
-                if image.width * image.height < 40000 {
-                    thumbImage = image
-                }else {
-                    thumbImage = image.scaleToFillSize(size: .init(width: 200, height: 200))
-                }
                 DispatchQueue.main.async {
-                    if let thumbImage {
-                        completion(
-                            .success(.init(
-                                image: thumbImage,
-                                urlConfig: urlConfig,
-                                imageType: .normal,
-                                data: self.getData()
-                            ))
-                        )
-                    }else {
-                        completion(.failure(.error(type: .compressionFailed, message: "封面图片压缩失败")))
-                    }
+                    completion(
+                        .success(.init(
+                            image: image,
+                            urlConfig: urlConfig,
+                            imageType: .normal,
+                            data: self.getData()
+                        ))
+                    )
                 }
             }
         }

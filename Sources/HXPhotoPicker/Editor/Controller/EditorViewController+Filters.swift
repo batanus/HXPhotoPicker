@@ -16,9 +16,6 @@ extension EditorViewController: EditorFiltersViewDelegate {
         switch selectedAsset.type.contentType {
         case .image:
             var originalImage = selectedOriginalImage
-            if !filter.isOriginal {
-                originalImage = selectedThumbnailImage
-            }
             if filter.isOriginal {
                 imageFilter = nil
                 imageFilterQueue.cancelAllOperations()
@@ -208,7 +205,7 @@ extension EditorViewController: EditorFilterParameterViewDelegate {
             case .image:
                 let filterInfo = config.photo.filter.infos[index - 1]
                 if let handler = filterInfo.filterHandler {
-                    let originalImage = selectedThumbnailImage
+                    let originalImage = selectedOriginalImage
                     let lastImage = self.editorView.image
                     var ciImage = originalImage?.ci_Image
                     imageFilterQueue.cancelAllOperations()
@@ -318,7 +315,7 @@ extension EditorViewController: EditorFilterParameterViewDelegate {
     }
     
     func applyImageFilterParameter(_ index: Int) {
-        let originalImage = selectedThumbnailImage
+        let originalImage = selectedOriginalImage
         var ciImage = originalImage?.ci_Image
         let lastImage = editorView.image
         imageFilterQueue.cancelAllOperations()
