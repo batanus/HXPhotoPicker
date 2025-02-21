@@ -42,9 +42,11 @@ extension UIView {
         completion: ((Bool) -> Void)? = nil
     ) {
         animate(
-            withDuration: 0.3,
+            withDuration: 0.5,
             delay: 0,
-            options: [.curveEaseOut, .layoutSubviews],
+            usingSpringWithDamping: 1,
+            initialSpringVelocity: 0,
+            options: [.curveEaseInOut, .layoutSubviews, .allowUserInteraction],
             animations: animations,
             completion: completion
         )
