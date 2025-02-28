@@ -318,11 +318,11 @@ extension EditorViewController: EditorFilterParameterViewDelegate {
         let originalImage = selectedOriginalImage
         var ciImage = originalImage?.ci_Image
         let lastImage = editorView.image
-        imageFilterQueue.cancelAllOperations()
-        let operation = BlockOperation()
-        operation.addExecutionBlock { [unowned operation, weak self] in
-            guard let self = self else { return }
-            if operation.isCancelled { return }
+//        imageFilterQueue.cancelAllOperations()
+//        let operation = BlockOperation()
+//        operation.addExecutionBlock { [unowned operation, weak self] in
+//            guard let self = self else { return }
+//            if operation.isCancelled { return }
             if self.filterEditFator.isApply {
                 ciImage = ciImage?.apply(self.filterEditFator)
             }
@@ -350,10 +350,10 @@ extension EditorViewController: EditorFilterParameterViewDelegate {
                    let newImage = handler(ciImage, lastImage, filter.parameters, false),
                    let cgImage = self.imageFilterContext.createCGImage(newImage, from: newImage.extent) {
                     let resultImage = UIImage(cgImage: cgImage)
-                    if operation.isCancelled { return }
-                    DispatchQueue.main.async {
+//                    if operation.isCancelled { return }
+//                    DispatchQueue.main.async {
                         self.editorView.updateImage(resultImage)
-                    }
+//                    }
                     if !self.config.mosaic.isFilterApply {
                         return
                     }
@@ -367,31 +367,31 @@ extension EditorViewController: EditorFilterParameterViewDelegate {
                         }
                     }
                     if let mosaicImage = mosaicImage {
-                        if operation.isCancelled { return }
-                        DispatchQueue.main.async {
+//                        if operation.isCancelled { return }
+//                        DispatchQueue.main.async {
                             self.editorView.mosaicCGImage = mosaicImage
-                        }
+//                        }
                     }
                 }
             }else {
                 guard let ciImage = ciImage else {
-                    DispatchQueue.main.async {
+//                    DispatchQueue.main.async {
                         self.editorView.updateImage(self.selectedOriginalImage)
-                    }
+//                    }
                     return
                 }
                 if self.filterEditFator.isApply {
                     if let cgImage = self.imageFilterContext.createCGImage(ciImage, from: ciImage.extent) {
                         let resultImage = UIImage(cgImage: cgImage)
-                        if operation.isCancelled { return }
-                        DispatchQueue.main.async {
+//                        if operation.isCancelled { return }
+//                        DispatchQueue.main.async {
                             self.editorView.updateImage(resultImage)
-                        }
+//                        }
                     }
                 }else {
-                    DispatchQueue.main.async {
+//                    DispatchQueue.main.async {
                         self.editorView.updateImage(self.selectedOriginalImage)
-                    }
+//                    }
                 }
                 if !self.config.mosaic.isFilterApply {
                     return
@@ -406,14 +406,14 @@ extension EditorViewController: EditorFilterParameterViewDelegate {
                     }
                 }
                 if let mosaicImage = mosaicImage {
-                    if operation.isCancelled { return }
-                    DispatchQueue.main.async {
+//                    if operation.isCancelled { return }
+//                    DispatchQueue.main.async {
                         self.editorView.mosaicCGImage = mosaicImage
-                    }
+//                    }
                 }
             }
-        }
-        imageFilterQueue.addOperation(operation)
+//        }
+//        imageFilterQueue.addOperation(operation)
     }
     
     func adjustmentVideoFilterCover() {
